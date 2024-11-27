@@ -17,7 +17,7 @@ config:
   # This is the path to the root of the Spack install tree.
   # You can use $spack here to refer to the root of the spack instance.
   install_tree:
-    root: $spack/opt/spack
+    root: $user_cache_path/opt/spack
     projections:
       all: "{architecture}/{compiler.name}-{compiler.version}/{name}-{version}-{hash}"
     # install_tree can include an optional padded length (int or boolean)
@@ -78,11 +78,11 @@ config:
 
   # Cache directory for already downloaded source tarballs and archived
   # repositories. This can be purged with `spack clean --downloads`.
-  source_cache: $spack/var/spack/cache
+  source_cache: $user_cache_path/var/spack/cache
 
 
   ## Directory where spack managed environments are created and stored
-  environments_root: $spack/../environments
+  environments_root: $user_cache_path/environments
 
 
   # Cache directory for miscellaneous files, like the package index.
@@ -107,12 +107,6 @@ config:
   # gpg key they are using, and may not want to see repeated warnings that it
   # is self-signed or something of the sort.
   suppress_gpg_warnings: false
-
-
-  # If set to true, Spack will attempt to build any compiler on the spec
-  # that is not already available. If set to False, Spack will only use
-  # compilers already configured in compilers.yaml
-  install_missing_compilers: false
 
 
   # If set to true, Spack will always check checksums after downloading
@@ -163,22 +157,6 @@ config:
 
   # If set to true, Spack will use ccache to cache C compiles.
   ccache: false
-
-
-  # The concretization algorithm to use in Spack. Options are:
-  #
-  #   'clingo': Uses a logic solver under the hood to solve DAGs with full
-  #       backtracking and optimization for user preferences. Spack will
-  #       try to bootstrap the logic solver, if not already available.
-  #
-  #   'original': Spack's original greedy, fixed-point concretizer. This
-  #       algorithm can make decisions too early and will not backtrack
-  #       sufficiently for many specs. This will soon be deprecated in
-  #       favor of clingo.
-  #
-  # See `concretizer.yaml` for more settings you can fine-tune when
-  # using clingo.
-  concretizer: clingo
 
 
   # How long to wait to lock the Spack installation database. This lock is used
