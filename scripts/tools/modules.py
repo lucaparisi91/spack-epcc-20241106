@@ -8,8 +8,8 @@ def generate_modules(repo_path, version , output="."):
     version: spack version
     output: Folder where to save generated modules
     '''
-    
-    template_name=os.path.join(repo_path, "modules","spack.template.lua")
+
+    template_name=os.path.join(repo_path, "scripts","tools","templates","spack.template.lua")
 
     with open(template_name) as f:
         lines=f.readlines()
