@@ -5,7 +5,7 @@ import argparse
 if __name__ == "__main__":
 
     default_repo= os.path.join( os.path.dirname(tools.__file__) , "..", ".." ) # repository location deduced by the location of this file
-    
+
     parser = argparse.ArgumentParser(
                     prog='Spack module generator',
                     description='Generates a module for the spack installation. The module set environment variables that point to the local configuration',
@@ -17,4 +17,4 @@ if __name__ == "__main__":
 
     args=parser.parse_args()
 
-    tools.modules.generate_modules(repo_path= args.repo_root,version= args.version)
+    tools.modules.generate_modules(repo_path= args.repo_root,version= args.version,output=args.output)
