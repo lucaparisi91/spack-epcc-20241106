@@ -1,4 +1,4 @@
-# Copyright 2013-2023 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -14,17 +14,44 @@ class QuantumEspresso(CMakePackage, Package):
     pseudopotentials.
     """
 
-    homepage = "http://quantum-espresso.org"
-    url = "https://gitlab.com/QEF/q-e/-/archive/qe-6.6/q-e-qe-7.2.tar.gz"
+    homepage = "https://quantum-espresso.org"
+    url = "https://gitlab.com/QEF/q-e/-/archive/qe-6.6/q-e-qe-6.6.tar.gz"
     git = "https://gitlab.com/QEF/q-e.git"
 
     maintainers("ye-luo", "bellenlau", "tgorni")
 
     build_system(conditional("cmake", when="@6.8:"), "generic", default="cmake")
 
+    license("GPL-2.0-only")
+
+    version("develop", branch="develop")
+    version("7.4", sha256="b15dcfe25f4fbf15ccd34c1194021e90996393478226e601d876f7dea481d104")
+    version("7.3.1", sha256="2c58b8fadfe4177de5a8b69eba447db5e623420b070dea6fd26c1533b081d844")
+    version("7.3", sha256="edc2a0f3315c69966df4f82ec86ab9f682187bc9430ef6d2bacad5f27f08972c")
     version("7.2", sha256="b348a4a7348b66a73545d9ca317a2645755c98d343c1cfe8def475ad030808c0")
-    
-    patch("scalapack-cray.patch", when="@7.2")
+    version("7.1", sha256="d56dea096635808843bd5a9be2dee3d1f60407c01dbeeda03f8256a3bcfc4eb6")
+    version("7.0", sha256="85beceb1aaa1678a49e774c085866d4612d9d64108e0ac49b23152c8622880ee")
+    version("6.8", sha256="654855c69864de7ece5ef2f2c0dea2d32698fe51192a8646b1555b0c57e033b2")
+    version(
+        "6.7",
+        sha256="fe0ce74ff736b10d2a20c9d59025c01f88f86b00d229c123b1791f1edd7b4315",
+        url="https://gitlab.com/QEF/q-e/-/archive/qe-6.7MaX-Release/q-e-qe-6.7MaX-Release.tar.gz",
+    )
+    version("6.6", sha256="924656cb083f52e5d2fe71ade05881389dac64b45316f1bdd6dee1c6170a672c")
+    version("6.5", sha256="258b2a8a6280e86dad779e5c56356d8b35dc96d12ff33dabeee914bc03d6d602")
+    version("6.4.1", sha256="b0d7e9f617b848753ad923d8c6ca5490d5d82495f82b032b71a0ff2f2e9cfa08")
+    version("6.4", sha256="781366d03da75516fdcf9100a1caadb26ccdd1dedd942a6f8595ff0edca74bfe")
+    version("6.3", sha256="4067c8fffa957aabbd5cf2439e2fcb6cf3752325393c67a17d99fd09edf8689c")
+    version("6.2.1", sha256="11fe24b4a9d85834f8b6d429baebed8b360a685ecfae222887ed451e118a9156")
+    version("6.2.0", sha256="e204df367c8ea1a50c7534b44481841d835a542a23ae71c3e33ad712fc636c8b")
+    version("6.1.0", sha256="fd2c2eb346b3ca8f08138df5ef3f69b466c256d2119db40eea1b578b0a42c66e")
+    version("6.0.0", sha256="bc77d9553bf5a9253ae74058dffb1d6e5fb61093188e78d3b8d8564755136f19")
+    version("5.4", sha256="e3993fccae9cea04a5c6492e8b961a053a63727051cb5c4eb6008f62cda8f335")
+    version("5.3", sha256="3b26038efb9e3f8ac7a2b950c31d8c29169a3556c0b68c299eb88a4be8dc9048")
+
+    depends_on("c", type="build")  # generated
+    depends_on("cxx", type="build")  # generated
+    depends_on("fortran", type="build")  # generated
 
     resource(
         name="environ",
@@ -52,13 +79,13 @@ class QuantumEspresso(CMakePackage, Package):
     # Need OpenMP threaded FFTW and BLAS libraries when configured
     # with OpenMP support
     with when("+openmp"):
-        depends_on("fftw+openmp", when="^fftw")
-        depends_on("amdfftw+openmp", when="^amdfftw")
-        depends_on("openblas threads=openmp", when="^openblas")
-        depends_on("amdblis threads=openmp", when="^amdblis")
-        depends_on("intel-mkl threads=openmp", when="^intel-mkl")
-        depends_on("armpl-gcc threads=openmp", when="^armpl-gcc")
-        depends_on("acfl threads=openmp", when="^acfl")
+        depends_on("fftw+openmp", when="^[virtuals=fftw-api] fftw")
+        depends_on("amdfftw+openmp", when="^[virtuals=fftw-api] amdfftw")
+        depends_on("openblas threads=openmp", when="^[virtuals=blas] openblas")
+        depends_on("amdblis threads=openmp", when="^[virtuals=blas] amdblis")
+        depends_on("intel-mkl threads=openmp", when="^[virtuals=blas] intel-mkl")
+        depends_on("armpl-gcc threads=openmp", when="^[virtuals=blas] armpl-gcc")
+        depends_on("acfl threads=openmp", when="^[virtuals=blas] acfl")
 
     # Add Cuda Fortran support
     # depends on NVHPC compiler, not directly on CUDA toolkit
@@ -84,6 +111,9 @@ class QuantumEspresso(CMakePackage, Package):
     with when("+nvtx~cuda"):
         depends_on("cuda")
 
+    # CLOCK variant to display program time in seconds
+    variant("clock", default=False, description="Display program time in seconds")
+
     # Apply upstream patches by default. Variant useful for 3rd party
     # patches which are incompatible with upstream patches
     desc = "Apply recommended upstream patches. May need to be set "
@@ -106,13 +136,17 @@ class QuantumEspresso(CMakePackage, Package):
         # CMake builds only support elpa without openmp
         depends_on("elpa~openmp", when="build_system=cmake")
         with when("build_system=generic"):
-            depends_on("elpa+openmp", when="+openmp")
+            depends_on("elpa", when="+openmp")
             depends_on("elpa~openmp", when="~openmp")
         # Elpa is formally supported by @:5.4.0, but QE configure searches
         # for it in the wrong folders (or tries to download it within
         # the build directory). Instead of patching Elpa to provide the
         # folder QE expects as a link, we issue a conflict here.
         conflicts("@:5.4.0", msg="+elpa requires QE >= 6.0")
+
+    variant("fox", default=False, description="Enables FoX library")
+    with when("+fox"):
+        conflicts("@:7.1", msg="+fox variant requires QE >= 7.2")
 
     # Support for HDF5 has been added starting in version 6.1.0 and is
     # still experimental, therefore we default to False for the variant
@@ -209,13 +243,8 @@ class QuantumEspresso(CMakePackage, Package):
     variant(
         "gipaw",
         default=False,
-        when="build_system=generic",
         description="Builds Gauge-Including Projector Augmented-Waves executable",
     )
-    with when("+gipaw"):
-        conflicts(
-            "@:6.3", msg="gipaw standard support available for QE 6.3 or grater version only"
-        )
 
     # Dependencies not affected by variants
     depends_on("blas")
@@ -223,6 +252,11 @@ class QuantumEspresso(CMakePackage, Package):
     depends_on("fftw-api@3")
     depends_on("git@2.13:", type="build")
     depends_on("m4", type="build")
+
+    # If the Intel suite is used for Lapack, it must be used for fftw and vice-versa
+    for _intel_pkg in INTEL_MATH_LIBRARIES:
+        requires(f"^[virtuals=fftw-api] {_intel_pkg}", when=f"^[virtuals=lapack]   {_intel_pkg}")
+        requires(f"^[virtuals=lapack]   {_intel_pkg}", when=f"^[virtuals=fftw-api] {_intel_pkg}")
 
     # CONFLICTS SECTION
     # Omitted for now due to concretizer bug
@@ -236,6 +270,15 @@ class QuantumEspresso(CMakePackage, Package):
     # THIRD-PARTY PATCHES
     # NOTE: *SOME* third-party patches will require deactivation of
     # upstream patches using `~patch` variant
+
+    # gipaw
+    conflicts(
+        "@:6.2",
+        when="+gipaw",
+        msg="gipaw standard support available for QE 6.3 or greater version only",
+    )
+    conflicts("~fox", when="@7.2: +gipaw", msg="gipaw plugin requires FoX")
+    conflicts("+gipaw build_system=cmake", when="@:7.1")
 
     # Only CMake will work for @6.8: %aocc
     conflicts(
@@ -258,17 +301,35 @@ class QuantumEspresso(CMakePackage, Package):
 
     conflicts("@6.5:", when="+environ", msg="6.4.x is the latest QE series supported by Environ")
 
+    conflicts(
+        "@:7.3.0",
+        when="build_system=generic %oneapi",
+        msg="Support for ifx has been added to configure in release 7.3.1",
+    )
+    # Fixed in https://github.com/libmbd/libmbd/pull/60, which will be part of the next release
+    conflicts(
+        "@7.3.1",
+        when="%oneapi@2024.1:",
+        msg="ifx added f_c_string in the ISO_C_BINDING module since version 2024.1 which conflicts"
+        + "with the libmbd provided one.",
+    )
+
+    # 7.3 - a compile-time problem fixed in 7.3.1
+    patch_url = "https://gitlab.com/QEF/q-e/-/commit/b98ff7539e5731728d2d49ac01021a57f2594027.diff"
+    patch_checksum = "04c125d249d1f076abe04bc4de39bd3b44a41a78d6233b638a17bd96f91443d5"
+    patch(patch_url, sha256=patch_checksum, when="@=7.3+elpa build_system=cmake")
+
     # QE 7.1 fix post-processing install part 1/2
     # see: https://gitlab.com/QEF/q-e/-/merge_requests/2005
     patch_url = "https://gitlab.com/QEF/q-e/-/commit/4ca3afd4c6f27afcf3f42415a85a353a7be1bd37.diff"
     patch_checksum = "e54d33e36a2667bd1d7e358db9fa9d4d83085264cdd47e39ce88754452ae7700"
-    patch(patch_url, sha256=patch_checksum, when="@:7.1 build_system=cmake")
+    patch(patch_url, sha256=patch_checksum, when="@7.1 build_system=cmake")
 
     # QE 7.1 fix post-processing install part 2/2
     # see: https://gitlab.com/QEF/q-e/-/merge_requests/2007
     patch_url = "https://gitlab.com/QEF/q-e/-/commit/481a001293de2f9eec8481e02d64f679ffd83ede.diff"
     patch_checksum = "5075f2df61ef5ff70f2ec3b52a113f5636fb07f5d3d4c0115931f9b95ed61c3e"
-    patch(patch_url, sha256=patch_checksum, when="@:7.1 build_system=cmake")
+    patch(patch_url, sha256=patch_checksum, when="@7.1 build_system=cmake")
 
     # No patch needed for QMCPACK converter beyond 7.0
     # 7.0
@@ -285,6 +346,11 @@ class QuantumEspresso(CMakePackage, Package):
     patch_url = "https://raw.githubusercontent.com/QMCPACK/qmcpack/v3.13.0/external_codes/quantum_espresso/add_pw2qmcpack_to_qe-6.7.0.diff"
     patch_checksum = "72564c168231dd4a1279a74e76919af701d47cee9a851db6e205753004fe9bb5"
     patch(patch_url, sha256=patch_checksum, when="@6.7+qmcpack")
+
+    # 6.6
+    patch_url = "https://gitlab.com/QEF/q-e/-/commit/081409ea90cba0ddc07bea5ac29e3cd422c67d3d.diff"
+    patch_checksum = "f43b7411e535629d9ef564a2e1695359df2651ecbdbca563f7265412afc2228a"
+    patch(patch_url, sha256=patch_checksum, when="@6.6:7.3.1")
 
     # 6.4.1
     patch_url = "https://raw.githubusercontent.com/QMCPACK/qmcpack/v3.13.0/external_codes/quantum_espresso/add_pw2qmcpack_to_qe-6.4.1.diff"
@@ -377,6 +443,9 @@ class QuantumEspresso(CMakePackage, Package):
     # extlibs_makefile updated to work with fujitsu compilers
     patch("fj-fox.patch", when="+patch %fj")
 
+    # gipaw.x will only be installed with cmake if the qe-gipaw version is >= 5c4a4ce.
+    patch("gipaw-eccee44.patch", when="@7.2+gipaw build_system=cmake")
+
 
 class CMakeBuilder(spack.build_systems.cmake.CMakeBuilder):
     def cmake_args(self):
@@ -390,8 +459,17 @@ class CMakeBuilder(spack.build_systems.cmake.CMakeBuilder):
             self.define_from_variant("QE_ENABLE_LIBXC", "libxc"),
             self.define_from_variant("QE_ENABLE_CUDA", "cuda"),
             self.define_from_variant("QE_ENABLE_PROFILE_NVTX", "nvtx"),
+            self.define_from_variant("QE_CLOCK_SECONDS", "clock"),
             self.define_from_variant("QE_ENABLE_MPI_GPU_AWARE", "mpigpu"),
         ]
+
+        plugins = []
+
+        if "+fox" in spec:
+            cmake_args.append(self.define("QE_ENABLE_FOX", True))
+
+        if "+gipaw" in spec:
+            plugins.append("gipaw")
 
         if "+cuda" in self.spec:
             cmake_args.append(self.define("QE_ENABLE_OPENACC", True))
@@ -405,15 +483,23 @@ class CMakeBuilder(spack.build_systems.cmake.CMakeBuilder):
             cmake_args.append(self.define("QE_ENABLE_HDF5", True))
 
         if "+qmcpack" in spec:
-            cmake_args.append(self.define("QE_ENABLE_PW2QMCPACK", True))
+            if spec.satisfies("@:7.0"):
+                cmake_args.append(self.define("QE_ENABLE_PW2QMCPACK", True))
+            else:
+                plugins.append("pw2qmcpack")
+
+
+        cmake_args.append(self.define("BLAS_LIBRARIES", spec["blas"].libs.joined(";")))
+        cmake_args.append(self.define("LAPACK_LIBRARIES", spec["lapack"].libs.joined(";")))
+        
 
         if "^armpl-gcc" in spec or "^acfl" in spec:
-            cmake_args.append(self.define("BLAS_LIBRARIES", spec["blas"].libs.joined(";")))
-            cmake_args.append(self.define("LAPACK_LIBRARIES", spec["lapack"].libs.joined(";")))
             # Up to q-e@7.1 set BLA_VENDOR to All to force detection of vanilla scalapack
             if spec.satisfies("@:7.1"):
                 cmake_args.append(self.define("BLA_VENDOR", "All"))
 
+        if plugins:
+            cmake_args.append(self.define("QE_ENABLE_PLUGINS", plugins))
         return cmake_args
 
 
@@ -471,7 +557,8 @@ class GenericBuilder(spack.build_systems.generic.GenericBuilder):
         # you need to pass it in the FFTW_INCLUDE and FFT_LIBS directory.
         # QE supports an internal FFTW2, but only an external FFTW3 interface.
 
-        if "^mkl" in spec:
+        is_using_intel_libraries = spec["lapack"].name in INTEL_MATH_LIBRARIES
+        if is_using_intel_libraries:
             # A seperate FFT library is not needed when linking against MKL
             options.append("FFTW_INCLUDE={0}".format(join_path(env["MKLROOT"], "include/fftw")))
         if "^fftw@3:" in spec:
@@ -513,11 +600,11 @@ class GenericBuilder(spack.build_systems.generic.GenericBuilder):
         if spec.satisfies("@:6.4"):  # set even if MKL is selected
             options.append("BLAS_LIBS={0}".format(lapack_blas.ld_flags))
         else:  # behavior changed at 6.5 and later
-            if not spec.satisfies("^mkl"):
+            if not is_using_intel_libraries:
                 options.append("BLAS_LIBS={0}".format(lapack_blas.ld_flags))
 
         if "+scalapack" in spec:
-            if "^mkl" in spec:
+            if is_using_intel_libraries:
                 if "^openmpi" in spec:
                     scalapack_option = "yes"
                 else:  # mpich, intel-mpi
@@ -565,6 +652,9 @@ class GenericBuilder(spack.build_systems.generic.GenericBuilder):
             else:
                 options.extend(["--with-elpa-lib={0}".format(elpa.libs[0])])
 
+        if "+fox" in spec:
+            options.append("--with-fox=yes")
+
         if spec.variants["hdf5"].value != "none":
             options.append("--with-hdf5={0}".format(spec["hdf5"].prefix))
             if spec.satisfies("@6.4.1,6.5"):
@@ -584,8 +674,8 @@ class GenericBuilder(spack.build_systems.generic.GenericBuilder):
         if spec.variants["hdf5"].value != "none":
             if spec.satisfies("@6.1.0:6.4.0") or (spec.satisfies("@6.4.1") and "+qmcpack" in spec):
                 make_inc = join_path(self.pkg.stage.source_path, "make.inc")
-                zlib_libs = spec["zlib"].prefix.lib + " -lz"
-                filter_file(zlib_libs, format(spec["zlib"].libs.ld_flags), make_inc)
+                zlib_libs = spec["zlib-api"].prefix.lib + " -lz"
+                filter_file(zlib_libs, format(spec["zlib-api"].libs.ld_flags), make_inc)
 
         # QE 6.8 and later has parallel builds fixed
         if spec.satisfies("@:6.7"):
