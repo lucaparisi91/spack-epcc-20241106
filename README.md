@@ -31,7 +31,7 @@ A few examples can be found in the `custom_packages` subdirectory.
 
 ## Installation of spack
 
-Navigate to the folder where you wish to install spack
+Navigate to the folder where you wish to install spack and clone this folder, including submodules.
 
 ```bash
 git clone --recursive -b v0.23.0 https://github.com/EPCCed/spack-epcc-20241106.git
@@ -42,3 +42,12 @@ You can generate module files to load spack using
 ```bash
 python scripts/generate_modules.py $VERSION --output $MY_MODULES_ROOT/spack
 ```
+
+Finally you can test the spack installation by executing the `tests.sh` script.
+
+```bash
+cd scripts/tests
+bash tests.sh
+```
+
+
