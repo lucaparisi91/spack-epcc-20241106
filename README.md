@@ -3,7 +3,7 @@
 These repo contains configurations for the centrally installed version of spack.
 The configuration is set using environment variables. The user can easily override these configurations to a custom directory.
 
-The archer2repo folder contains patches for broken or non-existent packages on Archer2, including a patch to cmake to let it recognise libsci
+The archer2repo folder contains patches for broken or non-existent packages on ARCHER2, including a patch to cmake to let it recognise libsci
 
 ## Using spack
 
