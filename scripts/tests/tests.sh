@@ -21,4 +21,5 @@ spack install lammps
 spack install quantum-espresso
 
 # Check that we can run a package on the compute nodes
-sbatch submit_lammps.sh
+sbatch -W submit_lammps.sh
+cat lammps_test.out

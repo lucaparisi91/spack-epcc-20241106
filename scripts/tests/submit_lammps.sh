@@ -7,6 +7,7 @@
 #SBATCH --time=00:20:00
 #SBATCH --partition=standard
 #SBATCH --qos=short
+#SBATCH --output=lammps_test.out
 
 # Ensure the cpus-per-task option is propagated to srun commands
 export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
