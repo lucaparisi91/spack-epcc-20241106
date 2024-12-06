@@ -1,10 +1,10 @@
 # Spack
-This repo contains the configuration, build and run instructions for the spack installation on Archer2.
+This repo contains the configuration, build and run instructions for the spack installation on ARCHER2.
 
 ## Using spack
 
 ### Loading spack
-The modules are installed as development modules on archer2.
+The modules are installed as development modules on ARCHER2.
 
 ```bash
 module use /work/y07/shared/archer2-lmod/apps/dev
@@ -67,7 +67,7 @@ You can now use `source $SPACK_ROOT/share/spack/setup-env.sh` to setup the spack
 
 ### Configuration of spack
 
-These repo contsin configurations for two installations of spack
+These repo contains configurations for two installations of Spack
 
 1. A centrally available installation. All packages installed trough spack with this config will be saved in a centralled saved directory on `y07` . This installation is meant to be used by cse only to provide centrally installed packages to other users. The installation can be loaded using `module load spack-epcc`. The configuration files are present in the `central_install` subdirectory.
 
@@ -97,7 +97,7 @@ You will also need to point the user installation to the central installation by
 
 These configuration can be overriden by the user by calling spack with `-C custom_config_folder` option, where `custom_config_folder` is a directory containing `.yaml` configuration files for spack.
 
-The archer2repo folder contains patches for broken packages on Archer2. Currently ( 09-04-24 ) a patch to cmake ( to findBlas.cmake , so that libsci is recognized ) and to quantum espresso are present.
+The archer2repo folder contains patches for broken packages on ARCHER2. Currently ( 09-04-24 ) a patch to cmake ( to findBlas.cmake , so that libsci is recognized ) and to quantum espresso are present.
 
 
 ## Verified software
