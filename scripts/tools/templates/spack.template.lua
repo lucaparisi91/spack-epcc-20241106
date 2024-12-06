@@ -37,7 +37,7 @@ setenv("SPACK_USER_CONFIG_PATH", pathJoin("/work", group, group, user, ".spack-_
 -- override anything themselves, we set the SYSTEM level config to a directory
 -- inside the repository holding the user config files.
 
-setenv("SPACK_SYSTEM_CONFIG_PATH",  pathJoin(pkgConfigBase,"spack-config"))
+setenv("SPACK_SYSTEM_CONFIG_PATH",  pkgConfigBase)
 setenv("SPACK_EPCC_REPOS",  pathJoin(pkgBase,"repos"))
 
 -- NB this command sources the Spack setup script required for shell completion
