@@ -1,0 +1,19 @@
+# This is a Spack Environment file.
+#
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  # add package specs to the `specs` list
+  specs:
+    - lammps%gcc
+    - petsc%gcc
+  view: 
+    archer2-cse:
+      root: /work/z19/z19/lparisi/codes/spack/spack-epcc-20241106/install
+      projections:
+        all: "{name}/{version}-{compiler.name}{compiler.version}"
+      link: roots
+      link_type: symlink
+  
+  concretizer:
+    unify: true
