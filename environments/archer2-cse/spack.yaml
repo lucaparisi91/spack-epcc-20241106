@@ -3,7 +3,21 @@
 # It describes a set of packages to be installed, along with
 # configuration settings.
 spack:
-  # add package specs to the `specs` list
+
+  modules:
+    default:
+      use_view: archer2-cse
+      roots:
+        tcl: /work/z19/z19/lparisi/codes/spack/spack-epcc-20241106/spack_modules
+      tcl:
+        include: ['lammps','petsc']
+        exclude: ['%gcc']
+        all:
+          autoload: direct
+        hide_implicits: true
+      arch_folder: false
+      enable: [tcl]
+      
   specs:
     - lammps%gcc
     - petsc%gcc
@@ -14,6 +28,6 @@ spack:
         all: "{name}/{version}-{compiler.name}{compiler.version}"
       link: roots
       link_type: symlink
-  
+
   concretizer:
     unify: true
