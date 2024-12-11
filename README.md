@@ -23,7 +23,7 @@ module load spack/0.23.0
 
 A few examples can be found in the `custom_packages` subdirectory.
 
-## Installation of spack
+## Installing Spack
 
 Navigate to the folder where you wish to install spack and clone this folder, including submodules.
 
