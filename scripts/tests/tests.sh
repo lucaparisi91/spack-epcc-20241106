@@ -1,5 +1,5 @@
 # SANITY CHECK tests
-# This is a temporary solution we want something more standard then a custom script 
+# This is a temporary solution. We want something more standard than a custom script 
 # in the future.
 # This tests could take a large amount of time
 
