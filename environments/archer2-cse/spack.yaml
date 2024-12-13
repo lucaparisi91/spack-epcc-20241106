@@ -2,27 +2,31 @@
 #
 # It describes a set of packages to be installed, along with
 # configuration settings.
+
 spack:
+
+  definitions:
+    - cse_specs:
+      - lammps
+      - petsc
 
   modules:
     default:
-      use_view: archer2-cse
+      use_view: true
       roots:
-        tcl: /work/z19/z19/lparisi/codes/spack/spack-epcc-20241106/spack_modules
-      tcl:
-        include: ['lammps','petsc']
-        exclude: ['%gcc']
+        lmod: /work/z19/z19/lparisi/codes/spack/spack-epcc-20241106/spack_modules
+      lmod:
+        core_compilers: [gcc@11.2.0]
+        hide_implicits: true
         all:
           autoload: direct
-        hide_implicits: true
       arch_folder: false
-      enable: [tcl]
-      
-  specs:
-    - lammps%gcc
-    - petsc%gcc
+      enable: [lmod]
+  
+  specs: 
+    - $cse_specs
   view: 
-    archer2-cse:
+    default:
       root: /work/z19/z19/lparisi/codes/spack/spack-epcc-20241106/install
       projections:
         all: "{name}/{version}-{compiler.name}{compiler.version}"

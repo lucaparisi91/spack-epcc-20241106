@@ -43,3 +43,11 @@ Finally you can test the spack installation by executing the `tests.sh` script.
 cd scripts/tests
 bash tests.sh
 ```
+
+## Managing modules
+
+You can remove an accidentally generated module using
+```bash
+spack mark -i <spec>
+spack module tcl refresh --delete-tree
+```
