@@ -46,8 +46,12 @@ bash tests.sh
 
 ## Managing modules
 
+You can generate modules using 
+```bash
+spack module lmod refresh --delete-tree
+```
+
 You can remove an accidentally generated module using
 ```bash
 spack mark -i <spec>
-spack module tcl refresh --delete-tree
 ```
