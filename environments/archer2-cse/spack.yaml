@@ -4,34 +4,39 @@
 # configuration settings.
 
 spack:
-
   definitions:
-    - cse_specs:
-      - lammps
-      - petsc
-
+  - cse_specs:
+    - lammps%gcc
+    - gromacs%cce
   modules:
     default:
-      use_view: true
+      use_view: false
       roots:
-        lmod: /work/z19/z19/lparisi/codes/spack/spack-epcc-20241106/spack_modules
+        lmod: /mnt/lustre/a2fs-nvme/z19/lparisi/spack-epcc-20241106/spack_modules/apps
       lmod:
-        core_compilers: [gcc@11.2.0]
+        projections:
+          all: '{name}/{version}-{compiler.name}'
+        hash_length: 0
+        core_compilers: [gcc@11.2.0, cce@15.0.0, aocc@4.0.0]
         hide_implicits: true
         all:
           autoload: direct
+        include:
+          - gcc@11.2.0
+          - cce@15.0.0
+          - aocc@4.0.0
+        hierarchy:
+          - mpi
+
       arch_folder: false
-      enable: [lmod]
-  
-  specs: 
-    - $cse_specs
-  view: 
-    default:
-      root: /work/z19/z19/lparisi/codes/spack/spack-epcc-20241106/install
-      projections:
-        all: "{name}/{version}-{compiler.name}{compiler.version}"
-      link: roots
-      link_type: symlink
+      enable::
+        - lmod
+  specs:
+  - $cse_specs
 
   concretizer:
-    unify: true
+    unify: when_possible
+  config:
+    install_tree:
+      root: /mnt/lustre/a2fs-nvme/z19/lparisi/spack-epcc-20241106/spack_opt
+  view: false
