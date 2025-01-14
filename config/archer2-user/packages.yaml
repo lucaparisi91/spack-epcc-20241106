@@ -12,6 +12,7 @@ packages:
       lapack : [cray-libsci ]
       scalapack : [ cray-libsci ]
 
+
     permissions:
       read: world
       write: user
@@ -253,6 +254,41 @@ packages:
          - cray-python
        prefix:  /opt/cray/pe/python/3.9.13.1
     buildable: False
+
+  gcc:
+    externals:
+      - spec: gcc@=11.2.0
+        prefix: /opt/cray/pe/gcc/11.2.0/bin/gcc
+        extra_attributes:
+          compilers:
+            c: /opt/cray/pe/gcc/11.2.0/bin/gcc
+            fortran: /opt/cray/pe/gcc/11.2.0/bin/gfortran
+            cxx: /opt/cray/pe/gcc/11.2.0/bin/g++
+      - spec: gcc@=10.3.0
+        prefix: /opt/cray/pe/gcc/11.2.0/bin/gcc
+        extra_attributes:
+          compilers:
+            c: /opt/cray/pe/gcc/10.3.0/bin/gcc
+            fortran: /opt/cray/pe/gcc/10.3.0/bin/gfortran
+            cxx: /opt/cray/pe/gcc/10.3.0/bin/g++
   
-  
-  
+  cce:
+    externals:
+      - spec: cce@=15.0.0
+        prefix: /opt/cray/pe/cce/15.0.0
+        extra_attributes:
+          compilers:
+            c: /opt/cray/pe/cce/15.0.0/bin/craycc
+            fortran: /opt/cray/pe/cce/15.0.0/bin/crayftn
+            cxx: /opt/cray/pe/cce/15.0.0/bin/craycxx
+  aocc:
+    externals:
+      - spec: aocc@=4.0.0
+        prefix: /opt/AMD/aocc-compiler-4.0.0
+        extra_attributes:
+          compilers:
+            c: /opt/AMD/aocc-compiler-4.0.0/bin/clang
+            fortran: None
+            cxx: /opt/AMD/aocc-compiler-4.0.0/bin/clang++
+
+    

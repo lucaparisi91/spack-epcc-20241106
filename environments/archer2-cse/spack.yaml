@@ -6,34 +6,39 @@
 spack:
   definitions:
   - cse_specs:
-    - lammps%gcc
+    - gromacs%gcc@11.2.0
     - gromacs%cce
+    - lammps%gcc@11.2.0
+
   modules:
     default:
+      'enable:':
+      - lmod
+
       use_view: false
       roots:
         lmod: /mnt/lustre/a2fs-nvme/z19/lparisi/spack-epcc-20241106/spack_modules/apps
       lmod:
         projections:
-          all: '{name}/{version}-{compiler.name}'
+          all: '{name}/{version}'
         hash_length: 0
-        core_compilers: [gcc@11.2.0, cce@15.0.0, aocc@4.0.0]
+        core_compilers: [ gcc@7.5.0 ]
         hide_implicits: true
         all:
           autoload: direct
-        include:
-          - gcc@11.2.0
-          - cce@15.0.0
-          - aocc@4.0.0
+        core_specs: [gcc,cce,aocc]
         hierarchy:
-          - mpi
+        - mpi
 
       arch_folder: false
-      enable::
-        - lmod
-  specs:
-  - $cse_specs
 
+
+  specs:
+  - gcc@11.2.0
+  - cce@15.0.0
+  - aocc@4.0.0
+  - $cse_specs
+  
   concretizer:
     unify: when_possible
   config:

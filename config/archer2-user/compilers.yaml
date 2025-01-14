@@ -64,4 +64,18 @@ compilers:
       target: x86_64
       environment: {}
       extra_rpaths: []
+  - compiler:
+      spec: gcc@=7.5.0
+      modules: []
+      paths:
+        cc: /usr/bin/gcc
+        cxx: /usr/bin/g++
+        f77: None
+        fc: None
+      flags: {}
+      operating_system: sles15
+      target: x86_64
+      environment: {}
+      extra_rpaths: []
+
 
