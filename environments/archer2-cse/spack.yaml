@@ -21,6 +21,17 @@ spack:
       lmod:
         projections:
           all: '{name}/{version}'
+          gcc: 'spack/{name}/{version}'
+          aocc: 'spack/{name}/{version}'
+          cce: 'spack/{name}/{version}'
+          
+        gcc:
+          template: compiler-template.lua
+        cce:
+          template: compiler-template.lua
+        aocc:
+          template: compiler-template.lua
+        
         hash_length: 0
         core_compilers: [ gcc@7.5.0 ]
         hide_implicits: true
@@ -44,4 +55,7 @@ spack:
   config:
     install_tree:
       root: /mnt/lustre/a2fs-nvme/z19/lparisi/spack-epcc-20241106/spack_opt
+    template_dirs:
+      - $spack/../templates
+  
   view: false
