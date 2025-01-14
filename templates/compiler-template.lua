@@ -10,6 +10,8 @@
 
 {% block provides %}
 
+family("spack_compiler")
+
 {% if spec.name == 'gcc'  %}
 load("PrgEnv-gnu")
 {% endif %}
