@@ -4,6 +4,7 @@ These repo contains configurations for the centrally installed version of spack.
 The configuration is set using environment variables. The user can easily override these configurations to a custom directory.
 
 The archer2repo folder contains patches for broken or non-existent packages on ARCHER2.
+
 ## Using spack
 
 ### Loading spack
@@ -44,14 +45,35 @@ cd scripts/tests
 bash tests.sh
 ```
 
-## Managing modules
+## Installing the CSE environment
 
-You can generate modules using 
+This is an environment we can use to provide centrlly installed packages.
+You can activate the environment with
+
 ```bash
-spack module lmod refresh --delete-tree
+spack env activate environments/archer2-cse
 ```
 
-You can remove an accidentally generated module using
+You will then need to install packages with
+
 ```bash
-spack mark -i <spec>
+spack install
+```
+
+Finally generate modules with 
+
+```bash
+spack module lmod refresh --delete-tree -y
+```
+
+You can use the generated modules with
+
+```bash
+module use archer2-cse/modules/Core
+```
+
+You will need to load the desired compiler to unlock the desired compiler hierarchy. For instance, to load all the gnu packages
+
+```bash
+module load spackEnv-gnu
 ```
