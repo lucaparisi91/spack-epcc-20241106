@@ -9,7 +9,8 @@ spack:
     - gromacs%gcc@11.2.0
     - gromacs%cce@15.0.0
     - lammps%gcc@11.2.0
-
+    - petsc%gcc
+    
   modules:
     default:
       'enable:':
@@ -40,9 +41,14 @@ spack:
         core_specs: [gcc, cce, aocc]
         hierarchy:
         - mpi
-
+      
       arch_folder: false
-
+    prefix_inspections:
+      ./lib:
+        - LD_LIBRARY_PATH
+      ./lib64:
+        - LD_LIBRARY_PATH
+      
 
   specs:
   - gcc@11.2.0
@@ -56,6 +62,6 @@ spack:
     install_tree:
       root: $spack/../archer2-cse/opt
     template_dirs:
-    - $spack/../archer2-cse/templates
+      - $spack/../archer2-cse/templates
 
   view: false
