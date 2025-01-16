@@ -7,7 +7,7 @@ spack:
   definitions:
   - cse_specs:
     - gromacs%gcc@11.2.0
-    - gromacs%cce
+    - gromacs%cce@15.0.0
     - lammps%gcc@11.2.0
 
   modules:
@@ -17,27 +17,27 @@ spack:
 
       use_view: false
       roots:
-        lmod: /mnt/lustre/a2fs-nvme/z19/lparisi/spack-epcc-20241106/spack_modules/apps
+        lmod: $spack/../archer2-cse/modules
       lmod:
         projections:
           all: '{name}/{version}'
-          gcc: 'spack/{name}/{version}'
-          aocc: 'spack/{name}/{version}'
-          cce: 'spack/{name}/{version}'
-          
+          gcc: spack/{name}/{version}
+          aocc: spack/{name}/{version}
+          cce: spack/{name}/{version}
+          cray-libsci: 'spack_{name}/{version}'
         gcc:
           template: compiler-template.lua
         cce:
           template: compiler-template.lua
         aocc:
           template: compiler-template.lua
-        
+
         hash_length: 0
-        core_compilers: [ gcc@7.5.0 ]
+        core_compilers: [gcc@7.5.0]
         hide_implicits: true
         all:
           autoload: direct
-        core_specs: [gcc,cce,aocc]
+        core_specs: [gcc, cce, aocc]
         hierarchy:
         - mpi
 
@@ -49,13 +49,13 @@ spack:
   - cce@15.0.0
   - aocc@4.0.0
   - $cse_specs
-  
+
   concretizer:
-    unify: when_possible
+    unify: false
   config:
     install_tree:
-      root: /mnt/lustre/a2fs-nvme/z19/lparisi/spack-epcc-20241106/spack_opt
+      root: $spack/../archer2-cse/opt
     template_dirs:
-      - $spack/../templates
-  
+    - $spack/../archer2-cse/templates
+
   view: false
