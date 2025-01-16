@@ -21,10 +21,10 @@ spack:
       lmod:
         projections:
           all: '{name}/{version}'
-          gcc: spack/{name}/{version}
-          aocc: spack/{name}/{version}
-          cce: spack/{name}/{version}
-          cray-libsci: 'spack_{name}/{version}'
+          gcc: 'spackEnv-gnu/{version}'
+          aocc: 'spackEnv-aocc/{version}'
+          cce: 'spackEnv-cray/{version}'
+          cray-libsci: 'spack-{name}/{version}'
         gcc:
           template: compiler-template.lua
         cce:
