@@ -40,7 +40,7 @@ packages:
           - cray-hdf5-parallel/1.12.2.1
           - cray-netcdf-hdf5parallel 
         prefix: /opt/cray/pe/netcdf-hdf5parallel/4.9.0.1/gnu/9.1
-      - spec: netcdf-c@4.9.0.1+mpi%cee
+      - spec: netcdf-c@4.9.0.1+mpi%cce
         modules:
           - cray-hdf5-parallel/1.12.2.1
           - cray-netcdf-hdf5parallel 
@@ -60,7 +60,7 @@ packages:
           - cray-hdf5-parallel/1.12.2.1
           - cray-netcdf-hdf5parallel 
         prefix: /opt/cray/pe/netcdf-hdf5parallel/4.9.0.1/gnu/9.1
-      - spec: netcdf-fortran@4.9.0.1%cee
+      - spec: netcdf-fortran@4.9.0.1%cce
         modules:
           - cray-hdf5-parallel/1.12.2.1
           - cray-netcdf-hdf5parallel 
@@ -81,7 +81,7 @@ packages:
           - cray-hdf5-parallel/1.12.2.1
           - cray-netcdf-hdf5parallel 
         prefix: /opt/cray/pe/netcdf-hdf5parallel/4.9.0.1/gnu/9.1
-      - spec: netcdf-cxx4@4.9.0.1%cee
+      - spec: netcdf-cxx4@4.9.0.1%cce
         modules:
           - cray-hdf5-parallel/1.12.2.1
           - cray-netcdf-hdf5parallel 
@@ -101,7 +101,7 @@ packages:
         modules:
           - cray-parallel-netcdf/1.12.3.1
         prefix: /opt/cray/pe/parallel-netcdf/1.12.3.1/gnu/9.1
-      - spec: parallel-netcdf@1.12.3.1%cee
+      - spec: parallel-netcdf@1.12.3.1%cce
         modules:
           - cray-parallel-netcdf/1.12.3.1
           - cray-netcdf-hdf5parallel 
@@ -147,7 +147,7 @@ packages:
         modules:
           - cray-mpich/8.1.23
           - cray-hdf5-parallel/1.12.2.1 
-        prefix: /opt/cray/pe/hdf5-parallel/1.12.2.1/cray-clang/14.0
+        prefix: /opt/cray/pe/hdf5-parallel/1.12.2.1/crayclang/14.0
 
       - spec: hdf5@1.12.2.1+mpi%aocc
         modules:
@@ -198,7 +198,6 @@ packages:
       - cray-libsci/22.12.1.1
       prefix: /opt/cray/pe/libsci/22.12.1.1/AOCC/2.0/x86_64
  
-
 
   python:
     externals:
@@ -257,38 +256,64 @@ packages:
 
   gcc:
     externals:
-      - spec: gcc@=11.2.0
-        prefix: /opt/cray/pe/gcc/11.2.0/bin/gcc
+    - spec: gcc@=11.2.0
+      modules:
+      - PrgEnv-gnu
+      - gcc/11.2.0
+      - xpmem
+      - libfabric
+      - craype-x86-rome
+      - craype-network-ofi
+
+      extra_attributes:
+        compilers:
+          c: cc
+          fortran: ftn
+          cxx: CC
+    - spec: gcc@=10.3.0
+        modules:
+        - PrgEnv-gnu
+        - gcc/11.2.0
+        - xpmem
+        - libfabric
+        - craype-x86-rome
+        - craype-network-ofi
+
         extra_attributes:
           compilers:
-            c: /opt/cray/pe/gcc/11.2.0/bin/gcc
-            fortran: /opt/cray/pe/gcc/11.2.0/bin/gfortran
-            cxx: /opt/cray/pe/gcc/11.2.0/bin/g++
-      - spec: gcc@=10.3.0
-        prefix: /opt/cray/pe/gcc/11.2.0/bin/gcc
-        extra_attributes:
-          compilers:
-            c: /opt/cray/pe/gcc/10.3.0/bin/gcc
-            fortran: /opt/cray/pe/gcc/10.3.0/bin/gfortran
-            cxx: /opt/cray/pe/gcc/10.3.0/bin/g++
-  
+            c: cc
+            fortran: ftn
+            cxx: CC
   cce:
     externals:
-      - spec: cce@=15.0.0
-        prefix: /opt/cray/pe/cce/15.0.0
-        extra_attributes:
-          compilers:
-            c: /opt/cray/pe/cce/15.0.0/bin/craycc
-            fortran: /opt/cray/pe/cce/15.0.0/bin/crayftn
-            cxx: /opt/cray/pe/cce/15.0.0/bin/craycxx
+    - spec: cce@=15.0.0
+      modules:
+      - PrgEnv-cray
+      - cce/15.0.0
+      - xpmem
+      - libfabric
+      - craype-x86-rome
+      - craype-network-ofi
+
+      extra_attributes:
+        compilers:
+          c: cc
+          fortran: ftn
+          cxx: CC
   aocc:
     externals:
-      - spec: aocc@=4.0.0
-        prefix: /opt/AMD/aocc-compiler-4.0.0
-        extra_attributes:
-          compilers:
-            c: /opt/AMD/aocc-compiler-4.0.0/bin/clang
-            fortran: None
-            cxx: /opt/AMD/aocc-compiler-4.0.0/bin/clang++
+    - spec: aocc@=4.0.0
+      modules:
+      - PrgEnv-aocc
+      - aocc/4.0.0
+      - xpmem
+      - libfabric
+      - craype-x86-rome
+      - craype-network-ofi
 
-    
+      extra_attributes:
+        environment:
+        compilers:
+          c: cc
+          fortran: none
+          cxx: CC
