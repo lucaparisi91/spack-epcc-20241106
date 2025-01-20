@@ -72,7 +72,7 @@ You can use the generated modules with
 module use archer2-cse/modules/Core
 ```
 
-You will need to load the desired compiler to unlock the desired compiler hierarchy. For instance, to load all the gnu packages
+You will need to load the desired compiler to unlock the desired compiler hierarchy. For instance, to load all the gnu packages.
 
 ```bash
 module load spackEnv-gnu
