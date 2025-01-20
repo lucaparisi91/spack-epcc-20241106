@@ -7,10 +7,14 @@ spack:
   definitions:
   - cse_specs:
     - gromacs%gcc@11.2.0
-    - gromacs%cce@15.0.0
+    - gromacs%cce
     - lammps%gcc@11.2.0
-    - petsc%gcc
-    
+    - python
+    - openfoam%gcc
+    - petsc %gcc@11.2.0
+    - petsc %cce@15.0.0
+    - petsc %aocc fortran=false
+
   modules:
     default:
       'enable:':
@@ -22,10 +26,9 @@ spack:
       lmod:
         projections:
           all: '{name}/{version}'
-          gcc: 'spackEnv-gnu/{version}'
-          aocc: 'spackEnv-aocc/{version}'
-          cce: 'spackEnv-cray/{version}'
-          cray-libsci: 'spack-{name}/{version}'
+          gcc: spackEnv-gnu/{version}
+          aocc: spackEnv-aocc/{version}
+          cce: spackEnv-cray/{version}
         gcc:
           template: compiler-template.lua
         cce:
@@ -33,35 +36,46 @@ spack:
         aocc:
           template: compiler-template.lua
 
+        exclude:
+        - cray-mpich
+        - cray-libsci
+        - libfabric
+        - fftw
+        - hdf5
+        - cray-fftw
+
         hash_length: 0
         core_compilers: [gcc@7.5.0]
+        include:
+        - gcc
+        - cce
+        - aocc
         hide_implicits: true
         all:
           autoload: direct
-        core_specs: [gcc, cce, aocc]
-        hierarchy:
-        - mpi
-      
+        core_specs: [python, gcc, cce, aocc]
+        hierarchy: []
       arch_folder: false
     prefix_inspections:
       ./lib:
-        - LD_LIBRARY_PATH
+      - LD_LIBRARY_PATH
       ./lib64:
-        - LD_LIBRARY_PATH
-      
+      - LD_LIBRARY_PATH
+
 
   specs:
   - gcc@11.2.0
   - cce@15.0.0
-  - aocc@4.0.0
   - $cse_specs
 
+  - petsc%cce
+  - aocc
   concretizer:
     unify: false
   config:
     install_tree:
       root: $spack/../archer2-cse/opt
     template_dirs:
-      - $spack/../archer2-cse/templates
+    - $spack/../archer2-cse/templates
 
   view: false
