@@ -3,7 +3,7 @@
 These repo contains configurations for the centrally installed version of spack.
 The configuration is set using environment variables. The user can easily override these configurations to a custom directory.
 
-The archer2repo folder contains patches for broken or non-existent packages on ARCHER2.
+The archer2 repo folder contains patches for broken or non-existent packages on ARCHER2.
 
 ## Using spack
 
@@ -69,11 +69,12 @@ spack module lmod refresh --delete-tree -y
 You can use the generated modules with
 
 ```bash
-module use archer2-cse/modules/Core
+module use archer2-cse/module_entry
+module load spack_epcc/1.0
 ```
 
-You will need to load the desired compiler to unlock the desired compiler hierarchy. For instance, to load all the gcc packages.
+You will be able to see all the packages compatible with your current programming environment. To view packages supported only for a certain compiler, load the corresponding cray programming environment. I.e. to see `openfoam`, which is only available within the gnu programming environment, use
 
 ```bash
-module load spackEnv-gnu
+module load PrgEnv-gnu
 ```
