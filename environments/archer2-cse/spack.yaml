@@ -46,14 +46,11 @@ spack:
 
         hash_length: 0
         core_compilers: [gcc@7.5.0]
-        include:
-        - gcc
-        - cce
-        - aocc
+        
         hide_implicits: true
         all:
           autoload: direct
-        core_specs: [python, gcc, cce, aocc]
+        core_specs: [python]
         hierarchy: []
       arch_folder: false
     prefix_inspections:
@@ -64,12 +61,8 @@ spack:
 
 
   specs:
-  - gcc@11.2.0
-  - cce@15.0.0
   - $cse_specs
 
-  - petsc%cce
-  - aocc
   concretizer:
     unify: false
   config:
