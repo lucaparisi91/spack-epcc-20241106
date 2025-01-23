@@ -19,7 +19,7 @@ family("spack_compiler")
 
 local softwarebase = "/mnt/lustre/a2fs-nvme/z19/lparisi/spack-epcc-20241106/archer2-cse/modules"
 
-local gnu_path = pathJoin(softwarebase, "gcc/11.2.0")
+local gnu_path = pathJoin(softwarebase, "gcc/11.2.0") .. ":" .. pathJoin(softwarebase, "gcc/10.3.0")
 local cray_path = pathJoin(softwarebase, "cce/15.0.0")
 local aocc_path = pathJoin(softwarebase, "aocc/4.0.0")
 
