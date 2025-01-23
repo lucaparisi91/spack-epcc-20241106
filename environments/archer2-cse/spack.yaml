@@ -45,7 +45,8 @@ spack:
         all:
           autoload: direct
         core_specs: [python]
-        hierarchy: []
+        hierarchy::
+          - compiler
       arch_folder: false
     prefix_inspections:
       ./lib:
