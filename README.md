@@ -60,17 +60,22 @@ You will then need to install packages with
 spack install
 ```
 
-Finally generate modules with 
+Finally generate environment modules with
 
 ```bash
 spack module lmod refresh --delete-tree -y
 ```
 
-You can use the generated modules with
+To unlock the modules created, you can generate a module that activates the environment modules.
 
 ```bash
-module use archer2-cse/module_entry
-module load spack_epcc/1.0
+python scripts/generate_modules.py $VERSION_ENV --module=cse_env --output $MY_MODULES_ROOT/cse_env
+```
+
+To use the spack generated modules load the `cse_env` module
+
+```bash
+module load cse_env
 ```
 
 You will be able to see all the packages compatible with your current programming environment. To view packages supported only for a certain compiler, load the corresponding cray programming environment. I.e. to see `openfoam`, which is only available within the gnu programming environment, use
