@@ -220,6 +220,7 @@ packages:
        modules:
          - cray-python
        prefix:  /opt/cray/pe/python/3.9.13.1
+    buildable: false
     
   py-scipy:
     externals:
