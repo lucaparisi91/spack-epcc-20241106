@@ -38,7 +38,7 @@ You can generate module files to load spack using
 python scripts/generate_modules.py $VERSION --output $MY_MODULES_ROOT/spack
 ```
 
-Finally you can test the spack installation by executing the `tests.sh` script. I suggest testing as a normal user, as it will try to install some packages. You might need to make changes to the tests based on your environment. They are mostly intended as documentation, in preparation for reframe tests to be setup.
+Finally you can test the spack installation by executing the `tests.sh` script.
 
 ```bash
 cd scripts/tests
