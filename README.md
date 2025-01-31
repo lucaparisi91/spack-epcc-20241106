@@ -83,3 +83,12 @@ You will be able to see all the packages compatible with your current programmin
 ```bash
 module load PrgEnv-gnu
 ```
+
+## Add packages
+
+Add a spec into the `environments/archer2-cse/spack.yaml` in the `$cse_specs` list. Then activate and re-install the environment
+
+```bash
+spack env activate environments/archer2-cse
+spack install
+```
